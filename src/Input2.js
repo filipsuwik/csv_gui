@@ -1,41 +1,29 @@
 import React, {useState} from "react";
 import findPattern from "./findPattern";
-import tableStyle from "./css";
-import Keys from "./renderKeys";
-const Input2 = ({selectedFile}) => {
+import SearchTable from "./SearchTable";
+import Calendar from "./Calendar";
 
+const Input2 = ({selectedFile,keys}) => {
 
     const [formData,setFormData] = useState({text:''})
     const [searchResult, setSearchresult] = useState([])
-    
+   
     let result = []
+    //set submit value as a state o0bject
     const handleSubmit = (event) => {
         event.preventDefault();
     
         selectedFile.forEach(element => {
             if(findPattern(element,formData.text)==true){
-                result.push(element)
+                result.push(Object.values(element))
             }
            
         });
-        
-       
-
-       
-       
     
-        
         setSearchresult(result)
         }
-       
-       
-   
-       
-   
-
-
-    
-
+    //console.log(searchResult)
+        if(!selectedFile[0]&&formData.text===''){console.log('file not loaded')} else {
 
     return(
         <div>
@@ -55,35 +43,14 @@ const Input2 = ({selectedFile}) => {
     
     <button type="submit">search</button>
   </form>
-<div>
-<table style={tableStyle}>
-         <tbody>
-         <tr>
-   
-         
-         </tr>
-
-         { searchResult.map(el => (
-            
-            <tr >
-                {Object.values(el).map(ob => (
-                    <td>{ob}</td>
-                )
-
-                )}
-            </tr> 
-        
-      )
-      )
-        }
-        
-         </tbody>
-         </table>
-</div>
-
+  <SearchTable result={searchResult} keys={keys()}/>
+  <Calendar result={searchResult}/>
 
 </div>
     )
+        
+        }
+
     
 
 }

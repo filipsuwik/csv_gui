@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import handleFiles from "./handleFile";
 import Input2 from "./Input2";
-import tableStyle from "./css";
-import findPattern from "./findPattern";
+import FileTable from "./FileTable";
+
+
 
 
 
@@ -12,25 +13,16 @@ import findPattern from "./findPattern";
     
     const [selectedFile, setSelectedFile] = useState([{}]);
   
+    const keys = () =>{
+        let arr = selectedFile.map(el=>{
+        return Object.keys(el)
+    })
+    return arr[0]}
 
-
-  // console.log(selectedFile)
-  
-
-
-   
-
-    
-
-    const keys = selectedFile.shift()
     let mapped =  selectedFile.map(el =>{
         return Object.values(el)
     })
 
-   
-
-  
-   
 
     return(
         
@@ -46,55 +38,16 @@ import findPattern from "./findPattern";
         e.target.files[0].text().then((result)=>{setSelectedFile(handleFiles(result))}); 
 
   
-
-
-
-
-
-
-
-            
           }
         }
         />
 
       </form>
-     <Input2 selectedFile={selectedFile}/>
-         <table style={tableStyle}>
-         <tbody>
 
-         <tr>
-         
-         {Object.keys(keys).map(el =>(
-            <td>{el}</td>
-         )
-            
-         )}
-         </tr>
-            
-            
-          { mapped.map(el => (
-            
-                <tr>
-                    {el.map(ob => (
-                        <td>{ob}</td>
-                    )
-
-                    )}
-                </tr> 
-            
-          )
-          )
-            }
-            
-           
-        
-
-   
-        
-        
-</tbody>
-         </table>
+      <Input2 selectedFile={selectedFile} keys={keys}/>
+      
+      <FileTable mapped={mapped} keys={keys}/>
+     
          
         
 
